@@ -1,0 +1,11 @@
+ DEPENDENCIAS
+ ------------
+
+Debes tener instalado ruby 1.8 y la librería de gnuplot para ruby
+Para instalarlo en ubuntu: sudo apt-get install ruby1.8 libgnuplot-ruby1.8
+
+ USO
+ ---
+
+Puedes llamar al programa normal y cuado lo cierres se perderán los datos.
+O puedes llamarlo pasandole el nombre de un archivo como argumento. Si este archivo exixte cargará los datos en él y luego guardará todo en él.
