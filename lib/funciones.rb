@@ -18,7 +18,8 @@ def printall(lista)
   clear
   printf col_negrita
   puts "  #{$title} #{$version}"
-  "  #{$title} #{$version}".size.times{printf "-"} #imprime una linea de guiones
+  printf "  "
+  "#{$title} #{$version}".size.times{printf "-"} #imprime una linea de guiones
   puts "\n\n"
   printf col_normal
   i=1

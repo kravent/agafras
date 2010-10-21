@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby1.8
 # author: Adrián García
-# version: 2.0.2
 # program under the license GPL v3
 $title="AGAFRAS cuenta-frases"
-$version="2.0.2"
+$version="2.0.3"
 require 'lib/classfrases'
 require 'lib/funciones'
 
