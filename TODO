@@ -1,0 +1,7 @@
+# Colores en la salida (v2.0.4)
+- Backup del archivo de datos durante la ejecución (v2.2)
+- Estadísticas por día del combo breaker (v2.1)
+	- Añadir lo correspondiente en retrocompatiblidad
+- Estadísticas por dia del total generadas dinámicamente (v2.1)
+- Guardar gráfica en archivo .ps | .svg con mismo nombre que .dat o elegir nombre (v2.2)
+- Interfaz en ncurses (v3.0)
