@@ -1,8 +1,10 @@
 # Colores en la salida (v2.0.4)
 # Estadísticas por día del combo breaker (v2.1)
-	# Modificar métodos de la clase integrandolo en la fila 0 de la tabla
+  # Modificar métodos de la clase integrandolo en la fila 0 de la tabla
   # Añadir lo correspondiente en retrocompatiblidad
 # Estadísticas por dia del total generadas dinámicamente (v2.1)
-- Backup del archivo de datos durante la ejecución (v2.2)
-- Guardar gráfica en archivo .ps | .svg con mismo nombre que .dat o elegir nombre (v2.2)
+# Backup del archivo de datos durante la ejecución (v2.2)
+# Guardar gráfica en archivo .eps con mismo nombre que .dat o elegir nombre (v2.2)
+# bug: solo anota la primera frases de los combo breakers (v2.2 URGENTE)
+- Aumentar tamaño de gráfica .eps guardada (v2.2.1)
 - Interfaz en ncurses (v3.0)

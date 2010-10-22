@@ -6,10 +6,14 @@ def clear
   printf "\e[H\e[2J"
 end
 
+
+
 def time
 # Función que devuelve la fecha actual en formato string
   return Time.new.strftime "%d/%m/%y"
 end
+
+
 
 def printall(lista)
   col_negrita="\e[1m"
@@ -35,6 +39,25 @@ def printall(lista)
   end
   puts "TOTAL: #{col_negrita+col_red}#{lista.gettotal}#{col_normal}"
   printf "\nq=salir / a=añadir / d=eliminar / c=cambiar_frase /"
-  printf " p=gráfica_de_estadísticas / 1..n=incrementar_frase_n\n>> "
+  printf " p=gráfica_de_estadísticas / pf=guardar_gráfica_en_arcivo /"
+  printf " 1..n=incrementar_frase_n\n>> "
 end
+
+
+
+def marshalload(filename)
+  f=File.open(filename,"r")
+  objeto=Marshal.load f.read
+  f.close
+  return objeto
+end
+
+
+
+def marshalsave(filename,objeto)
+  f=File.open(filename,"w")
+  f.write Marshal.dump objeto
+  f.close
+end
+
 
