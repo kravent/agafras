@@ -2,7 +2,7 @@
 # author: Adrián García
 # program under the license GPL v3
 $title="AGAFRAS cuenta-frases"
-$version="2.0.4"
+$version="2.1"
 require 'lib/classfrases'
 require 'lib/funciones'
 

@@ -11,12 +11,22 @@ class Frases
     @dias=Array.new
     @frases=Array.new
     @tabla=Array.new
-    @combob=nil
+    @combob=Array.new
   end
   def retrocompatiblidad
     # Actualiza datos cargados de versiones anteriores
     # version <= 2.0
     @version="2.0" if not @version
+    if @version<"2.1"
+      # Cambia @combob de int a array
+      com=@combob
+      @combob=Array.new
+      @dias.size.times do |i|
+        @combob.push com/@dias.size
+        @combob[i] += com % @dias.size if i>=@dias.size-1
+      end
+      @version="2.1"
+    end
   end
   def crearsubarraystr(str)
     if not @frases.include? str
@@ -29,6 +39,7 @@ class Frases
   def crearsubarraydia(datestr)
     if not @dias.include? datestr
       @dias.push datestr
+      @combob.push 0
       @tabla.push Array.new
       @frases.size.times do |i|
         @tabla[posdia(datestr)].push(0)
@@ -65,11 +76,8 @@ class Frases
     @tabla[posdia(time)][n-1]+=1
   end
   def inccombob
-    if @combob
-      @combob+=1
-    else
-      @combob=1
-    end
+    crearsubarraydia time
+    @combob[posdia(time)]+=1
   end
   def keys
     # Devuelve un vector con las frases guardadas
@@ -85,7 +93,9 @@ class Frases
     return tot
   end
   def getcombob
-    return @combob
+    tot=0
+    @combob.each{|x|tot+=x}
+    return tot
   end
   def gettotal
     tot=0
@@ -93,6 +103,17 @@ class Frases
       @frases.size.times do |j|
         tot+=@tabla[i][j]
       end
+    end
+    return tot
+  end
+  def getarraytotal
+    tot=Array.new
+    @dias.size.times do |i|
+      subtot=0
+      @tabla[i].each do |el|
+        subtot+=el
+      end
+      tot.push subtot
     end
     return tot
   end
@@ -121,6 +142,15 @@ class Frases
             ds.title=@frases[i]
           end
         end
+        plot.data << Gnuplot::DataSet.new([diasn,@combob]) do |ds|
+          ds.with="linespoints"
+          ds.title="C-C-C-COMBO BREAKER!!!"
+        end
+        plot.data << Gnuplot::DataSet.new([diasn,getarraytotal]) do |ds|
+          ds.with="linespoints"
+          ds.title="TOTAL"
+        end
+
       end
     end
   end
