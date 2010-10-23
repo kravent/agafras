@@ -22,29 +22,50 @@ def main
     marshalsave(ARGV[0]+".backup",lista) if ARGV.size>=1
     printall lista
     op=$stdin.gets.chomp.downcase
-    if op=="a" # Añade una nueva frase
+
+    # Añade una nueva frase
+    if op=="a"
       printf "Frase a añadir: "
       lista.add $stdin.gets.chomp
-    elsif op=="d" # Borra una frase
+
+    # Borra una frase
+    elsif op=="d"
       printf "Número de frase a borrar: "
       lista.deln $stdin.gets.chomp.to_i
-    elsif op=="c" # Cambia una frase manteniendo el contador
+
+    # Cambia una frase manteniendo el contador
+    elsif op=="c"
       printf "Número de frase a cambiar: "
       n=$stdin.gets.chomp.to_i
       if n>=1 and n<=lista.size
         printf "Nueva frase: "
         lista.changefn n,$stdin.gets.chomp
       end
-    elsif op=="p" # Imprime gráfica en pantalla
-      lista.plot
-    elsif op=="pf" # Imprime gráfica en archivo
-      printf "Intoduce el nombre del archivo .eps a guardar"
+
+    # Imprime gráfica en pantalla
+    elsif op=="p"
+      if ARGV.size>=1
+        lista.plot ARGV[0].gsub(/\..{2,3}$/,"")+"-"+time
+      else
+        lista.plot
+      end
+
+    # Imprime gráfica en archivo
+    elsif op=="pf"
+      printf "Intoduce el nombre de la gráfica a guardar"
       printf " (en blanco para nombre automático)" if ARGV.size>=1
       printf "\nNombre: "
-      fileestats=$stdin.gets.chomp
-      fileestats=ARGV[0]+".eps" if fileestats.empty? and ARGV.size>=1
-      lista.plot fileestats if not fileestats.empty?
-    else # Busca números separados por espacios
+      nameestats=$stdin.gets.chomp
+      if nameestats.empty? and ARGV.size>=1
+        nameestats=ARGV[0].gsub(/\..{2,3}$/,"")+"."+time.gsub("/","-")
+        fileestats=nameestats+".eps"
+      else
+        fileestats=nameestats+".eps"
+      end
+      lista.plot(nameestats,fileestats) if not nameestats.empty?
+    
+    # Busca números separados por espacios
+    else
       op.split(" ").each do |ns|
         if /(^||\s||-)\d+-\d+($||\s||-)/.match ns
           lista.inccombob

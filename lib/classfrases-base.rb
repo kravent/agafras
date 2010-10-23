@@ -35,7 +35,8 @@ class Frases
 
 
 
-  def plot(file=nil) # Usando gnuplot hace una gráfica con las estadísticas
+  def plot(name=nil,file=nil)
+    # Usando gnuplot hace una gráfica con las estadísticas
     diasn=(1..@dias.size).to_a
     #diasn=@dias.collect{|x|x.split("/").reverse.join("").to_i}
     # diasn contiene el array de dias pero en forma de int
@@ -46,9 +47,13 @@ class Frases
           plot.terminal 'postscript eps'
           plot.output file
         end
-        plot.title "#{$title} #{$version}"
-        plot.ylabel "Repeticiones"
-        plot.xlabel "Día"
+        if name
+          plot.title name
+        else
+          plot.title "#{$title} #{$version}";puts original
+        end
+        plot.ylabel 'Repeticiones'
+        plot.xlabel 'Día'
         #plot.xrange "[#{diasn.first}:#{diasn.last}]"
         @frases.size.times do |i|
           segundia=Array.new
