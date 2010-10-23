@@ -7,5 +7,5 @@
 # Guardar gráfica en archivo .eps con mismo nombre que .dat o elegir nombre (v2.2)
 # bug: solo anota la primera frases de los combo breakers (v2.2 URGENTE)
 # Aumentar tamaño de gráficas guardadas (v2.2.1)
-- Añadir nuevos tipos de gráficas (v2.?)
+- Añadir nuevos tipos de gráficas, como el histograma (v2.?)
 - Interfaz en ncurses (v3.0)

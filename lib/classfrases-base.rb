@@ -45,7 +45,7 @@ class Frases
             plot.terminal 'svg size 1280 720' # imprime a .svg
           else
             # NOTE ¿eliminar color al .ps?
-            plot.terminal 'postscript eps color enhanced' # imprime a .ps
+            plot.terminal 'postscript eps enhanced color' # imprime a .ps
           end
           plot.output file
           plot.set 'object 1 rect from screen 0,0,0 to screen 1,1,0 behind'
@@ -59,10 +59,18 @@ class Frases
         plot.ylabel 'Repeticiones'
         plot.xlabel 'Día'
 
+
+        #plot.style 'data histogram'
+        #plot.style 'histogram cluster gap 1'
+        #plot.style 'fill solid border -1'
+        #plot.boxwidth '0.9'
+
+        
+        plot.set 'auto x'
         plot.xdata 'time' # establece que los datos del eje x son fechas
         plot.timefmt '"%d/%m/%y"' # establece como recoger fecha
         plot.format 'x "%d/%m/%y"' # establece como mostrar fecha
-        plot.xtics 'nomirror rotate by -60'
+        plot.xtics 'nomirror rotate by -60' # gira las fechas del eje x
         #plot.xrange "[\"#{@dias.first}\":\"#{@dias.last}\"]"
         diascom=@dias
 
@@ -73,18 +81,18 @@ class Frases
           end
           plot.data << Gnuplot::DataSet.new([diascom,segundia]) do |ds|
             ds.using="1:2"
-            ds.with="linespoints"
+            #ds.with="yerrorbars"
             ds.title=@frases[i]
           end
         end
         plot.data << Gnuplot::DataSet.new([diascom,@combob]) do |ds|
           ds.using="1:2"
-          ds.with="linespoints"
+          #ds.with="yerrorbars"
           ds.title="C-C-C-COMBO BREAKER!!!"
         end
         plot.data << Gnuplot::DataSet.new([diascom,getarraytotal]) do |ds|
           ds.using="1:2"
-          ds.with="linespoints"
+          #ds.with="yerrorbars"
           ds.title="TOTAL"
         end
 
