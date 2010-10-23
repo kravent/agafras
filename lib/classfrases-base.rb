@@ -38,17 +38,19 @@ class Frases
   def plot(name=nil,file=nil)
     # Usando gnuplot hace una gráfica con las estadísticas
     diasn=(1..@dias.size).to_a
-    #diasn=@dias.collect{|x|x.split("/").reverse.join("").to_i}
-    # diasn contiene el array de dias pero en forma de int
     Gnuplot.open do |gp|
       Gnuplot::Plot.new(gp) do |plot|
         #plot.xrange "[-10:10]"
         if file
-          #plot.terminal 'postscript eps'
-          plot.terminal 'svg size 1280 720'
+          if /\.svg$/.match file
+            plot.terminal 'svg size 1280 720' # imprime a .svg
+          else
+            # NOTE ¿eliminar color al .ps?
+            plot.terminal 'postscript color enhanced' # imprime a .ps
+          end
           plot.output file
-          plot.object '1 rect from screen 0,0,0 to screen 1,1,0 behind'
-          plot.object '1 rect fc rgb "white" fillstyle solid 1.0'
+          plot.set 'object 1 rect from screen 0,0,0 to screen 1,1,0 behind'
+          plot.set 'object 1 rect fc rgb "white" fillstyle solid 1.0'
         end
         if name
           plot.title name
@@ -57,7 +59,8 @@ class Frases
         end
         plot.ylabel 'Repeticiones'
         plot.xlabel 'Día'
-        #plot.xrange "[#{diasn.first}:#{diasn.last}]"
+      
+
         @frases.size.times do |i|
           segundia=Array.new
           @dias.size.times do |j|
