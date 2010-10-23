@@ -44,8 +44,11 @@ class Frases
       Gnuplot::Plot.new(gp) do |plot|
         #plot.xrange "[-10:10]"
         if file
-          plot.terminal 'postscript eps'
+          #plot.terminal 'postscript eps'
+          plot.terminal 'svg size 1280 720'
           plot.output file
+          plot.object '1 rect from screen 0,0,0 to screen 1,1,0 behind'
+          plot.object '1 rect fc rgb "white" fillstyle solid 1.0'
         end
         if name
           plot.title name

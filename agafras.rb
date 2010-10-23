@@ -58,10 +58,8 @@ def main
       nameestats=$stdin.gets.chomp
       if nameestats.empty? and ARGV.size>=1
         nameestats=ARGV[0].gsub(/\..{2,3}$/,"")+"."+time.gsub("/","-")
-        fileestats=nameestats+".eps"
-      else
-        fileestats=nameestats+".eps"
       end
+      fileestats=nameestats+".svg"
       lista.plot(nameestats,fileestats) if not nameestats.empty?
     
     # Busca números separados por espacios
