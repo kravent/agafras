@@ -40,7 +40,7 @@ def printall(lista)
   puts "TOTAL: #{col_negrita+col_red}#{lista.gettotal}#{col_normal}"
   printf "\nq=salir / a=añadir / d=eliminar / c=cambiar_frase /"
   printf " p=gráfica_de_estadísticas / ps=guardar_gráfica_.svg /"
-  printf " pp=guardar_gráfica_.ps / 1..n=incrementar_frase_n\n>> "
+  printf " pe=guardar_gráfica_.eps / 1..n=incrementar_frase_n\n>> "
 end
 
 

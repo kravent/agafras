@@ -51,7 +51,7 @@ def main
       end
 
     # Imprime gráfica en archivo
-    elsif op=='ps' or op=='pp'
+    elsif op=='ps' or op=='pe'
       printf "Intoduce el nombre de la gráfica a guardar"
       printf " (en blanco para nombre automático)" if ARGV.size>=1
       printf "\nNombre: "
@@ -59,7 +59,7 @@ def main
       if nameestats.empty? and ARGV.size>=1
         nameestats=ARGV[0].gsub(/\..{2,3}$/,"")+"."+time.gsub("/","-")
       end
-      fileestats=nameestats + (op=='ps'?'.svg':'.ps')
+      fileestats=nameestats + (op=='ps'?'.svg':'.eps')
       lista.plot(nameestats,fileestats) if not nameestats.empty?
     # Busca números separados por espacios
     else

@@ -37,7 +37,6 @@ class Frases
 
   def plot(name=nil,file=nil)
     # Usando gnuplot hace una gráfica con las estadísticas
-    diasn=(1..@dias.size).to_a
     Gnuplot.open do |gp|
       Gnuplot::Plot.new(gp) do |plot|
         #plot.xrange "[-10:10]"
@@ -46,7 +45,7 @@ class Frases
             plot.terminal 'svg size 1280 720' # imprime a .svg
           else
             # NOTE ¿eliminar color al .ps?
-            plot.terminal 'postscript color enhanced' # imprime a .ps
+            plot.terminal 'postscript eps color enhanced' # imprime a .ps
           end
           plot.output file
           plot.set 'object 1 rect from screen 0,0,0 to screen 1,1,0 behind'
@@ -59,23 +58,32 @@ class Frases
         end
         plot.ylabel 'Repeticiones'
         plot.xlabel 'Día'
-      
+
+        plot.xdata 'time' # establece que los datos del eje x son fechas
+        plot.timefmt '"%d/%m/%y"' # establece como recoger fecha
+        plot.format 'x "%d/%m/%y"' # establece como mostrar fecha
+        plot.xtics 'nomirror rotate by -60'
+        #plot.xrange "[\"#{@dias.first}\":\"#{@dias.last}\"]"
+        diascom=@dias
 
         @frases.size.times do |i|
           segundia=Array.new
           @dias.size.times do |j|
             segundia.push @tabla[j][i]
           end
-          plot.data << Gnuplot::DataSet.new([diasn,segundia]) do |ds|
+          plot.data << Gnuplot::DataSet.new([diascom,segundia]) do |ds|
+            ds.using="1:2"
             ds.with="linespoints"
             ds.title=@frases[i]
           end
         end
-        plot.data << Gnuplot::DataSet.new([diasn,@combob]) do |ds|
+        plot.data << Gnuplot::DataSet.new([diascom,@combob]) do |ds|
+          ds.using="1:2"
           ds.with="linespoints"
           ds.title="C-C-C-COMBO BREAKER!!!"
         end
-        plot.data << Gnuplot::DataSet.new([diasn,getarraytotal]) do |ds|
+        plot.data << Gnuplot::DataSet.new([diascom,getarraytotal]) do |ds|
+          ds.using="1:2"
           ds.with="linespoints"
           ds.title="TOTAL"
         end
