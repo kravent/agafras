@@ -8,11 +8,16 @@ require 'lib/classfrases-modificadores'
 require 'lib/funciones'
 
 def main
-  if ARGV.size>=1 and File.exists? ARGV[0]
+  if ARGV.size>=1
     # Extrae datos del archivo si existe
-    lista=marshalload(ARGV[0])
-    # Actualizamos los datos si eran de una versión anterior del programa
-    lista.retrocompatiblidad
+    raise ArgumentError,'El archivo de datos debe ser .dat' unless /\.dat$/.match ARGV[0]
+    if File.exists? ARGV[0]
+      lista=marshalload(ARGV[0])
+      # Actualizamos los datos si eran de una versión anterior del programa
+      lista.retrocompatiblidad
+    else
+      lista=Frases.new
+    end
   else
     # Si no se especifica archivo crea una lista nueva
     lista=Frases.new
@@ -57,7 +62,7 @@ def main
       printf "\nNombre: "
       nameestats=$stdin.gets.chomp
       if nameestats.empty? and ARGV.size>=1
-        nameestats=ARGV[0].gsub(/\..{2,3}$/,"")+"."+time.gsub("/","-")
+        nameestats=ARGV[0].gsub(/\.dat$/,"")+"."+time.gsub("/","-")
       end
       fileestats=nameestats + (op=='ps'?'.svg':'.eps')
       lista.plot(nameestats,fileestats) if not nameestats.empty?

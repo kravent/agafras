@@ -7,6 +7,7 @@
 # Guardar gráfica en archivo .eps con mismo nombre que .dat o elegir nombre (v2.2)
 # bug: solo anota la primera frases de los combo breakers (v2.2 URGENTE)
 # Aumentar tamaño de gráficas guardadas (v2.2.1)
-- Obligar a que el archivo de datos sea .dat (v2.?)
+# Obligar a que el archivo de datos sea .dat (v2.2.1)
+- Comprobar que gnuplot esté instalado antes de realizar una gráfica (v2.2.1)
 - Añadir nuevos tipos de gráficas, como el histograma (v2.?)
 - Interfaz en ncurses (v3.0)

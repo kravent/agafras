@@ -61,12 +61,6 @@ class Frases
 
         
         plot.autoscale
-        #plot.style 'data histogram'
-        #plot.style 'histogram cluster gap 1'
-        #plot.style 'fill solid border -1'
-        #plot.boxwidth '0.9'
-
-        
         plot.set 'auto x'
         plot.xdata 'time' # establece que los datos del eje x son fechas
         plot.timefmt '"%d/%m/%y"' # establece como recoger fecha
@@ -81,24 +75,18 @@ class Frases
             segundia.push @tabla[j][i]
           end
           plot.data << Gnuplot::DataSet.new([diascom,segundia]) do |ds|
-            ds.using="1:2"
-            #ds.smooth='freq'
-            #ds.with="boxes"
+            ds.using='1:2'
             ds.with='linespoints'
             ds.title=@frases[i]
           end
         end
         plot.data << Gnuplot::DataSet.new([diascom,@combob]) do |ds|
-          ds.using="1:2"
-          #ds.smooth='freq'
-          #ds.with="boxes"
+          ds.using='1:2'
           ds.with='linespoints'
           ds.title="C-C-C-COMBO BREAKER!!!"
         end
         plot.data << Gnuplot::DataSet.new([diascom,getarraytotal]) do |ds|
-          ds.using="1:2"
-          #ds.smooth='freq'
-          #ds.with="boxes"
+          ds.using='1:2'
           ds.with='linespoints'
           ds.title="TOTAL"
         end
