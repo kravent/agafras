@@ -1,6 +1,6 @@
 # author: Adrián García
 # program under the license GPL v3
-require 'gnuplot'
+require 'lib/rdp-gnuplot'
 
 # Clase que gestiona la lista de frases con sus contadores
 class Frases
@@ -54,12 +54,13 @@ class Frases
         if name
           plot.title name
         else
-          plot.title "#{$title} #{$version}";puts original
+          plot.title "#{$title} #{$version}"
         end
         plot.ylabel 'Repeticiones'
         plot.xlabel 'Día'
 
-
+        
+        plot.autoscale
         #plot.style 'data histogram'
         #plot.style 'histogram cluster gap 1'
         #plot.style 'fill solid border -1'
@@ -81,18 +82,24 @@ class Frases
           end
           plot.data << Gnuplot::DataSet.new([diascom,segundia]) do |ds|
             ds.using="1:2"
-            #ds.with="yerrorbars"
+            #ds.smooth='freq'
+            #ds.with="boxes"
+            ds.with='linespoints'
             ds.title=@frases[i]
           end
         end
         plot.data << Gnuplot::DataSet.new([diascom,@combob]) do |ds|
           ds.using="1:2"
-          #ds.with="yerrorbars"
+          #ds.smooth='freq'
+          #ds.with="boxes"
+          ds.with='linespoints'
           ds.title="C-C-C-COMBO BREAKER!!!"
         end
         plot.data << Gnuplot::DataSet.new([diascom,getarraytotal]) do |ds|
           ds.using="1:2"
-          #ds.with="yerrorbars"
+          #ds.smooth='freq'
+          #ds.with="boxes"
+          ds.with='linespoints'
           ds.title="TOTAL"
         end
 
