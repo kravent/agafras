@@ -10,7 +10,7 @@ end
 
 def time
 # Función que devuelve la fecha actual en formato string
-  return Time.new.strftime "%d/%m/%y"
+  return Time.new.strftime '%d/%m/%y'
 end
 
 
@@ -46,7 +46,7 @@ end
 
 
 def marshalload(filename)
-  f=File.open(filename,"r")
+  f=File.open(filename,'r')
   objeto=Marshal.load f.read
   f.close
   return objeto
@@ -55,7 +55,7 @@ end
 
 
 def marshalsave(filename,objeto)
-  f=File.open(filename,"w")
+  f=File.open(filename,'w')
   f.write Marshal.dump objeto
   f.close
 end

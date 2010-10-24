@@ -83,12 +83,12 @@ class Frases
         plot.data << Gnuplot::DataSet.new([diascom,@combob]) do |ds|
           ds.using='1:2'
           ds.with='linespoints'
-          ds.title="C-C-C-COMBO BREAKER!!!"
+          ds.title='C-C-C-COMBO BREAKER!!!'
         end
         plot.data << Gnuplot::DataSet.new([diascom,getarraytotal]) do |ds|
           ds.using='1:2'
           ds.with='linespoints'
-          ds.title="TOTAL"
+          ds.title='TOTAL'
         end
 
       end
