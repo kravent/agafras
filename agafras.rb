@@ -6,6 +6,7 @@ $version="2.2.1"
 require 'lib/classfrases-base'
 require 'lib/classfrases-modificadores'
 require 'lib/funciones'
+require 'readline'
 
 def main
   if ARGV.size>=1
@@ -24,27 +25,23 @@ def main
   end
 
   begin # BUCLE PRINCIPAL DEL PROGRAMA
-    marshalsave(ARGV[0]+".backup",lista) if ARGV.size>=1
+    marshalsave(ARGV[0]+'.backup',lista) if ARGV.size>=1
     printall lista
-    op=$stdin.gets.chomp.downcase
+    op=Readline.readline('',true).downcase
 
     # Añade una nueva frase
-    if op=="a"
-      printf "Frase a añadir: "
-      lista.add $stdin.gets.chomp
+    if op=='a'
+      lista.add Readline.readline('Frase a añadir: ',true)
 
     # Borra una frase
-    elsif op=="d"
-      printf "Número de frase a borrar: "
-      lista.deln $stdin.gets.chomp.to_i
+    elsif op=='d'
+      lista.deln Readline.readline('Número de frase a borrar: ',true).to_i
 
     # Cambia una frase manteniendo el contador
-    elsif op=="c"
-      printf "Número de frase a cambiar: "
-      n=$stdin.gets.chomp.to_i
+    elsif op=='c'
+      n=Readline.readline('Número de frase a cambiar: ',true).to_i
       if n>=1 and n<=lista.size
-        printf "Nueva frase: "
-        lista.changefn n,$stdin.gets.chomp
+        lista.changefn n,Readline.readline('Nueva frase: ',true)
       end
 
     # Imprime gráfica en pantalla
@@ -57,10 +54,9 @@ def main
 
     # Imprime gráfica en archivo
     elsif op=='ps' or op=='pe'
-      printf "Intoduce el nombre de la gráfica a guardar"
-      printf " (en blanco para nombre automático)" if ARGV.size>=1
-      printf "\nNombre: "
-      nameestats=$stdin.gets.chomp
+      printf 'Intoduce el nombre de la gráfica a guardar'
+      printf ' (en blanco para nombre automático)' if ARGV.size>=1
+      nameestats=Readline.readline("\nNombre: ",true)
       if nameestats.empty? and ARGV.size>=1
         nameestats=ARGV[0].gsub(/\.dat$/,"")+"."+time.gsub("/","-")
       end
@@ -79,9 +75,9 @@ def main
         end
       end
     end
-  end while op!="q" # FIN DEL BUCLE PRINCIPAL DEL PROGRAMA
+  end while op!='q' # FIN DEL BUCLE PRINCIPAL DEL PROGRAMA
 
-  File.delete ARGV[0]+".backup" if ARGV.size>=1
+  File.delete ARGV[0]+'.backup' if ARGV.size>=1
   # Guarda datos en el archivo antes de salir
   marshalsave(ARGV[0],lista) if ARGV.size>=1
 end
