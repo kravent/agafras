@@ -37,8 +37,10 @@ class Frases
 
   def add(str)
     # Añade una nueva frase inicializando el contador a 0
-    crearsubarraystr str
-    crearsubarraydia time
+    unless str.empty?
+      crearsubarraystr str
+      crearsubarraydia time
+    end
   end
   def deln(n)
     # Borra la frase número n
@@ -104,7 +106,7 @@ class Frases
 
   def changefn(n,str)
     # Cambia la frase número n de nombre manteniendo su contador
-    @frases[n-1]=str
+    @frases[n-1]=str unless str.empty?
   end
 
 end

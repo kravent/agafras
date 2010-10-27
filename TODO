@@ -8,5 +8,6 @@
 # bug: solo anota la primera frases de los combo breakers (v2.2 URGENTE)
 # Aumentar tamaño de gráficas guardadas (v2.2.1)
 # Obligar a que el archivo de datos sea .dat (v2.2.1)
+# Que no acepte nuevas frases vacias (v2.2.3)
 - Interfaz GTK (v3.0)
 - Añadir nuevos tipos de gráficas, como el histograma (v3.x)
