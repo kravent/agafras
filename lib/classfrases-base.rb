@@ -37,6 +37,7 @@ class Frases
 
   def plot(name=nil,file=nil)
     # Usando gnuplot hace una gráfica con las estadísticas
+    return if size<=0
     Gnuplot.open do |gp|
       Gnuplot::Plot.new(gp) do |plot|
         #plot.xrange "[-10:10]"
