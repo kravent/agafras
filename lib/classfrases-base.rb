@@ -2,6 +2,12 @@
 # program under the license GPL v3
 require 'lib/rdp-gnuplot'
 
+
+$title="AGAFRAS cuenta-frases"
+$version="3.0"
+
+
+
 # Clase que gestiona la lista de frases con sus contadores
 class Frases
 
