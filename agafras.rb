@@ -118,7 +118,7 @@ class AgaInterfaz
     vbox.pack_start Gtk::HSeparator.new,false
     vbox.pack_start vbox_input,false
     @window.add vbox
-    @window.default=@input
+    @window.focus=@input
     @window.show_all
     Gtk.main
   end
