@@ -57,22 +57,30 @@ class AgaInterfaz
     menu_factory.create_items(menu_items)
     menu=menu_factory.get_widget('<main>')
     #NOTE inicio empaquetado frases
-    #NOTE el siguiente codigo es inusable debido a un bug de libgnome2-ruby
-    #@treeview_frases=Gtk::TreeView.new
-    #renderer=Gtk::CellRendererText.new
-    #column=Gtk::TreeViewColumn.new('Nº',renderer,0)
-    #@treeview_frases.append(column)
-    #renderer=Gtk::CellRendererText.new
-    #column=Gtk::TreeViewColumn.new('Frase',renderer,1)
-    #@treeview_frases.append(column)
-    #renderer=Gtk::CellRendererText.new
-    #column=Gtk::TreeViewColumn.new('Contador',renderer,2)
-    #@treeview_frases.append(column)
-    #@lista_frases=Gtk::ListStore.new(Interger,String,Interger)
+    @treeview_frases=Gtk::TreeView.new
+    renderer=Gtk::CellRendererText.new
+    @column_0_frases=Gtk::TreeViewColumn.new('Nº',renderer,:text=>0)
+    @treeview_frases.append_column(@column_0_frases)
+    column=Gtk::TreeViewColumn.new('Frase',renderer,:text=>1)
+    @treeview_frases.append_column(column)
+    column=Gtk::TreeViewColumn.new('Contador',renderer,:text=>2)
+    @treeview_frases.append_column(column)
+    @lista_frases=Gtk::ListStore.new(String,String,String)
+=begin
     @treeview_frases=Gtk::TextView.new
     @treeview_frases.editable=false
     @treeview_frases.modify_font Pango::FontDescription.new 'Monospace Bold 11'
-    actualiza_lista  
+=end
+    actualiza_lista
+    @treeview_frases.signal_connect('cursor-changed'){|widget|
+      if widget.cursor[1]==@column_0_frases and
+          widget.cursor[0].to_s.to_i>=0 and
+          widget.cursor[0].to_s.to_i<$lista.keys.size
+        $lista.incn widget.cursor[0].to_s.to_i+1
+        actualiza_lista
+        $changed=true
+      end
+    }
     scroll_frases=Gtk::ScrolledWindow.new
     scroll_frases.add @treeview_frases
     scroll_frases.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC)
@@ -84,8 +92,10 @@ class AgaInterfaz
       buttons_opciones.last.signal_connect('clicked'){self.send(strop[1])}
       vbox_opciones.pack_start buttons_opciones.last,false
     end
-    label_input=Gtk::Label.new 'Introduce el número de las frases a inc' <<
-    'rementar separadas por espacios (o por guiones para hacer combo breaker):'
+    label_input=Gtk::Label.new 'Pulsa el número de la frase para ' <<
+    "incrementarla.\n\nO introduce el número de las frases que deseas " <<
+    "incrementar en el siguiente recuadro,\nseparadas por espacios " <<
+    "(o por guiones para hacer combo breaker):"
     @input=Gtk::Entry.new
     @input.set_flags Gtk::Widget::CAN_DEFAULT
     @input.signal_connect('activate'){
@@ -107,7 +117,9 @@ class AgaInterfaz
     hbox_input.pack_start @input
     hbox_input.pack_start button_input_ok,false
     hbox_input.pack_start button_input_cancel,false
-    vbox_input.pack_start label_input
+    hbox_label_input=Gtk::HBox.new
+    hbox_label_input.pack_start label_input,false
+    vbox_input.pack_start hbox_label_input,false
     vbox_input.pack_start hbox_input
 
 

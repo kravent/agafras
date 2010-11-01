@@ -263,27 +263,28 @@ class AgaInterfaz
   end
 
   def limpiainput
-    @input.text=""
+    @input.text=''
   end
   
 
-  #NOTE función inusable debido a un bug de libgnome2-ruby
-  #def actualiza_lista
-  #  @lista_frases.clear
-  #  $lista.keys.each_with_index do |frase,i|
-  #    fila=@lista_frases.append
-  #    @lista_frases.set_value(fila,0,i+1)
-  #    @lista_frases.set_value(fila,1,frase)
-  #    @lista_frases.set_value(fila,2,$lista.getval(frase))
-  #  end
-  #  fila=@lista_frases.append
-  #  @lista_frases.set_value(fila,1,'C-C-C-COMBO BREAKER!!!')
-  #  @lista_frases.set_value(fila,2,$lista.getcombob)
-  #  fila=@lista_frases.append
-  #  @lista_frases.set_value(fila,1,'TOTAL')
-  #  @lista_frases.set_value(fila,2,$lista.gettotal)
-  #  @treeview_frases.model=@lista_frases
-  #end
+  def actualiza_lista
+    @lista_frases.clear
+    $lista.keys.each_with_index do |frase,i|
+      fila=@lista_frases.append
+      @lista_frases.set_value(fila,0,(i+1).to_s)
+      @lista_frases.set_value(fila,1,frase)
+      @lista_frases.set_value(fila,2,$lista.getval(frase).to_s)
+    end
+    fila=@lista_frases.append if $lista.keys.size >= 1
+    fila=@lista_frases.append
+    @lista_frases.set_value(fila,1,'C-C-C-COMBO BREAKER!!!')
+    @lista_frases.set_value(fila,2,$lista.getcombob.to_s)
+    fila=@lista_frases.append
+    @lista_frases.set_value(fila,1,'TOTAL')
+    @lista_frases.set_value(fila,2,$lista.gettotal.to_s)
+    @treeview_frases.model=@lista_frases
+  end
+=begin
   def actualiza_lista
     marshalsave($filedat+'.backup',$lista) if $filedat
     texto=""
@@ -294,6 +295,7 @@ class AgaInterfaz
     texto << "TOTAL >> #{$lista.gettotal}"
     @treeview_frases.buffer.text=texto
   end
+=end
 
 
 
