@@ -25,8 +25,9 @@ def printall(lista)
   clear
   printf col_negrita
   puts "#{$title} #{$version}"
-  "#{$title} #{$version}".size.times{printf "-"} #imprime una linea de guiones
-  puts "\n\n#{col_normal}"
+  #imprime una linea de guiones
+  "#{$title} #{$version}".size.times{printf "-"}
+  puts "\n#{lista.nombre}\n#{col_normal}"
   i=1
   lista.keys.each do |key|
     printf "#{col_negrita+col_magenta}#{i}#{col_normal} #{key} ->"
@@ -40,7 +41,8 @@ def printall(lista)
   puts "TOTAL: #{col_negrita+col_red}#{lista.gettotal}#{col_normal}"
   printf "\nq=salir / a=añadir / d=eliminar / c=cambiar_frase /"
   printf " p=gráfica_de_estadísticas / ps=guardar_gráfica_.svg /"
-  printf " pe=guardar_gráfica_.eps / 1..n=incrementar_frase_n\n>> "
+  printf " pe=guardar_gráfica_.eps / n=cambiar_nombre"
+  printf " / 1..n=incrementar_frase_n\n>> "
 end
 
 

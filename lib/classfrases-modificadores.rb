@@ -109,6 +109,13 @@ class Frases
     @frases[n-1]=str unless str.empty?
   end
 
+
+  def nombre
+    return @nombre
+  end
+  def nombre=(str)
+    @nombre=str
+  end
 end
 
 

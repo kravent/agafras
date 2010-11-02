@@ -61,6 +61,11 @@ def main
       fileestats=nameestats + (op=='ps'?'.svg':'.eps')
       lista.plot(nameestats,fileestats) if not nameestats.empty?
     # Busca números separados por espacios
+    elsif op=='n'
+      nombre=Readline.readline('Nombre de las estadísticas: ',true)
+      if !nombre.empty?
+        lista.nombre=nombre
+      end
     else
       op.split(" ").each do |ns|
         if /(^||\s||-)\d+-\d+($||\s||-)/.match ns

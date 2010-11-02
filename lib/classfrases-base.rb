@@ -15,6 +15,7 @@ class Frases
     # Es lla mado al crar un nuevo objeto de la clase
     # Inicializa la lista de frases vacía
     @version=$version
+    @nombre='Nueva estadística'
     @dias=Array.new
     @frases=Array.new
     @tabla=Array.new
@@ -26,8 +27,8 @@ class Frases
   def retrocompatiblidad
     # Actualiza datos cargados de versiones anteriores
     # version <= 2.0
-    @version="2.0" if not @version
-    if @version<"2.1"
+    @version='2.0' if not @version
+    if @version<'2.1'
       # Cambia @combob de int a array
       com=@combob
       @combob=Array.new
@@ -35,7 +36,11 @@ class Frases
         @combob.push com/@dias.size
         @combob[i] += com % @dias.size if i>=@dias.size-1
       end
-      @version="2.1"
+      @version='2.1'
+    end
+    if @version<'3.0'
+      @nombre='Nueva estadística'
+      @version='3.0'
     end
   end
 
