@@ -59,21 +59,21 @@ class AgaInterfaz
     #NOTE inicio empaquetado frases
     @treeview_frases=Gtk::TreeView.new
     renderer=Gtk::CellRendererText.new
-    @column_0_frases=Gtk::TreeViewColumn.new('Nº',renderer,:text=>0)
-    @treeview_frases.append_column(@column_0_frases)
+    column=Gtk::TreeViewColumn.new('Nº',renderer,:text=>0)
+    @treeview_frases.append_column(column)
     column=Gtk::TreeViewColumn.new('Frase',renderer,:text=>1)
     @treeview_frases.append_column(column)
     column=Gtk::TreeViewColumn.new('Contador',renderer,:text=>2)
     @treeview_frases.append_column(column)
-    @lista_frases=Gtk::ListStore.new(String,String,String)
-=begin
-    @treeview_frases=Gtk::TextView.new
-    @treeview_frases.editable=false
-    @treeview_frases.modify_font Pango::FontDescription.new 'Monospace Bold 11'
-=end
+    @column_incrementa=Gtk::TreeViewColumn.new('Pulsa para incrementar',
+                                               renderer,:text=>3)
+    @treeview_frases.append_column(@column_incrementa)
+    @lista_frases=Gtk::ListStore.new(String,String,String,String)
+    
     actualiza_lista
+
     @treeview_frases.signal_connect('cursor-changed'){|widget|
-      if widget.cursor[1]==@column_0_frases and
+      if widget.cursor[1]==@column_incrementa and
           widget.cursor[0].to_s.to_i>=0 and
           widget.cursor[0].to_s.to_i<$lista.keys.size
         $lista.incn widget.cursor[0].to_s.to_i+1
@@ -92,9 +92,8 @@ class AgaInterfaz
       buttons_opciones.last.signal_connect('clicked'){self.send(strop[1])}
       vbox_opciones.pack_start buttons_opciones.last,false
     end
-    label_input=Gtk::Label.new 'Pulsa el número de la frase para ' <<
-    "incrementarla.\n\nO introduce el número de las frases que deseas " <<
-    "incrementar en el siguiente recuadro,\nseparadas por espacios " <<
+    label_input=Gtk::Label.new 'Introduce el número de las frases que deseas' <<
+    " incrementar en el siguiente recuadro,\nseparadas por espacios " <<
     "(o por guiones para hacer combo breaker):"
     @input=Gtk::Entry.new
     @input.set_flags Gtk::Widget::CAN_DEFAULT

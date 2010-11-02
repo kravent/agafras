@@ -71,7 +71,7 @@ class AgaInterfaz
                              Gtk::Dialog::DESTROY_WITH_PARENT,
                              [Gtk::Stock::OK,Gtk::Dialog::RESPONSE_ACCEPT],
                              [Gtk::Stock::CANCEL,Gtk::Dialog::RESPONSE_REJECT])
-      image=Gtk::Image.new(Gtk::Stock::DIALOG_INFO, Gtk::IconSize::DIALOG)
+      image=Gtk::Image.new(Gtk::Stock::DIALOG_WARNING, Gtk::IconSize::DIALOG)
       hbox=Gtk::HBox.new false,10
       hbox.border_width=10
       hbox.pack_start image
@@ -274,6 +274,7 @@ class AgaInterfaz
       @lista_frases.set_value(fila,0,(i+1).to_s)
       @lista_frases.set_value(fila,1,frase)
       @lista_frases.set_value(fila,2,$lista.getval(frase).to_s)
+      @lista_frases.set_value(fila,3,'Incrementa')
     end
     fila=@lista_frases.append if $lista.keys.size >= 1
     fila=@lista_frases.append
@@ -284,20 +285,6 @@ class AgaInterfaz
     @lista_frases.set_value(fila,2,$lista.gettotal.to_s)
     @treeview_frases.model=@lista_frases
   end
-=begin
-  def actualiza_lista
-    marshalsave($filedat+'.backup',$lista) if $filedat
-    texto=""
-    $lista.keys.each_with_index do |frase,i|
-      texto << "#{i+1} #{frase} -> #{$lista.getval(frase)}\n"
-    end
-    texto << "\nC-C-C-COMBO BREAKER!!! >> #{$lista.getcombob}\n"
-    texto << "TOTAL >> #{$lista.gettotal}"
-    @treeview_frases.buffer.text=texto
-  end
-=end
-
-
 
 
 end
