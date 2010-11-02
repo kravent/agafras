@@ -274,12 +274,13 @@ class AgaInterfaz
       @lista_frases.set_value(fila,0,(i+1).to_s)
       @lista_frases.set_value(fila,1,frase)
       @lista_frases.set_value(fila,2,$lista.getval(frase).to_s)
-      @lista_frases.set_value(fila,3,'Incrementa')
+      @lista_frases.set_value(fila,3,'(Incrementa)')
     end
     fila=@lista_frases.append if $lista.keys.size >= 1
     fila=@lista_frases.append
     @lista_frases.set_value(fila,1,'C-C-C-COMBO BREAKER!!!')
     @lista_frases.set_value(fila,2,$lista.getcombob.to_s)
+    @lista_frases.set_value(fila,3,@combo_activado?'(Activado)':'(Desactivado)')
     fila=@lista_frases.append
     @lista_frases.set_value(fila,1,'TOTAL')
     @lista_frases.set_value(fila,2,$lista.gettotal.to_s)

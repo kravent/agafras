@@ -42,6 +42,7 @@ class AgaInterfaz
 
   def initialize
     $changed=false
+    @combo_activado=false
     @window=Gtk::Window.new "#{$title} #{$version}"
     @window.destroy_with_parent=false
     @window.signal_connect('delete_event'){
@@ -73,12 +74,19 @@ class AgaInterfaz
     actualiza_lista
 
     @treeview_frases.signal_connect('cursor-changed'){|widget|
-      if widget.cursor[1]==@column_incrementa and
-          widget.cursor[0].to_s.to_i>=0 and
-          widget.cursor[0].to_s.to_i<$lista.keys.size
-        $lista.incn widget.cursor[0].to_s.to_i+1
-        actualiza_lista
-        $changed=true
+      if widget.cursor[1]==@column_incrementa
+        if widget.cursor[0].to_s.to_i>=0 and
+            widget.cursor[0].to_s.to_i<$lista.keys.size
+          num=(widget.cursor[0].to_s.to_i+1).to_s
+          if @input.text.empty?
+            @input.text=num
+          else
+            @input.text=@input.text+(@combo_activado?'-':' ')+num
+          end
+        elsif widget.cursor[0].to_s.to_i==$lista.keys.size+1
+          @combo_activado=!@combo_activado
+          actualiza_lista
+        end
       end
     }
     scroll_frases=Gtk::ScrolledWindow.new
