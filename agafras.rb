@@ -25,10 +25,11 @@ class AgaInterfaz
         '<Item>',nil,nil,lambda{cargadat}],
       ['/Archivo/_Guardar','<Item>',nil,nil,lambda{save}],
       ['/Archivo/_Salir','<Item>',nil,nil,lambda{cerrar}],
-      ['/_Frases'],
-      ['/Frases/_Añadir frase','<Item>',nil,nil,lambda{add}],
-      ['/Frases/_Eliminar frase','<Item>',nil,nil,lambda{del}],
-      ['/Frases/_Cambiar frase','<Item>',nil,nil,lambda{cambia}],
+      ['/_Datos'],
+      ['/Datos/_Nombre de los datos','<Item>',nil,nil,lambda{renombrar_datos}],
+      ['/Datos/_Añadir frase','<Item>',nil,nil,lambda{add}],
+      ['/Datos/_Eliminar frase','<Item>',nil,nil,lambda{del}],
+      ['/Datos/_Cambiar frase','<Item>',nil,nil,lambda{cambia}],
       ['/_Gráfica'],
       ['/Gráfica/_Mostrar gráfica','<Item>',nil,nil,lambda{plot}], 
       ['/Gráfica/_Guardardar gráfica como svg',
@@ -70,21 +71,20 @@ class AgaInterfaz
                                                renderer,:text=>3)
     @treeview_frases.append_column(@column_incrementa)
     @lista_frases=Gtk::ListStore.new(String,String,String,String)
-    
-    actualiza_lista
 
     @treeview_frases.signal_connect('cursor-changed'){|widget|
       if widget.cursor[1]==@column_incrementa
         if widget.cursor[0].to_s.to_i>=0 and
-            widget.cursor[0].to_s.to_i<$lista.keys.size
+            widget.cursor[0].to_s.to_i<$lista.keys.size #NUMERO
           num=(widget.cursor[0].to_s.to_i+1).to_s
-          if @input.text.empty?
-            @input.text=num
-          else
-            @input.text=@input.text+(@combo_activado?'-':' ')+num
-          end
-        elsif widget.cursor[0].to_s.to_i==$lista.keys.size+1
+          @input.text=@input.text+num+(@combo_activado?'-':' ')
+        elsif widget.cursor[0].to_s.to_i==$lista.keys.size+1 #COMBO
           @combo_activado=!@combo_activado
+          if @combo_activado and not (/ $/.match @input.text)
+            @input.text=@input.text+' '
+          elsif !@combo_activado and (/-$/.match @input.text)
+            @input.text=@input.text.gsub(/-$/,' ')
+          end
           actualiza_lista
         end
       end
@@ -92,6 +92,12 @@ class AgaInterfaz
     scroll_frases=Gtk::ScrolledWindow.new
     scroll_frases.add @treeview_frases
     scroll_frases.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC)
+    scroll_frases.border_width=10
+    @frame_frases=Gtk::Frame.new $lista.nombre
+    @frame_frases.add scroll_frases
+
+    actualiza_lista
+
     #NOTE fin empaquetado frases
     vbox_opciones=Gtk::VBox.new(false,5)
     buttons_opciones=Array.new
@@ -130,7 +136,7 @@ class AgaInterfaz
     vbox_input.pack_start hbox_input
 
 
-    hbox.pack_start scroll_frases
+    hbox.pack_start @frame_frases 
     hbox.pack_start vbox_opciones,false
     vbox.pack_start menu,false
     vbox.pack_start hbox

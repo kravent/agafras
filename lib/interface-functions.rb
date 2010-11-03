@@ -172,6 +172,33 @@ class AgaInterfaz
       dialog.destroy
     end
   end
+  
+  def renombrar_datos
+    dialog=Gtk::Dialog.new('Nombre de los datos',@window,
+                           Gtk::Dialog::DESTROY_WITH_PARENT,
+                           [Gtk::Stock::OK,Gtk::Dialog::RESPONSE_ACCEPT],
+                           [Gtk::Stock::CANCEL,Gtk::Dialog::RESPONSE_REJECT])
+    entry=Gtk::Entry.new
+    entry.text=$lista.nombre
+    image=Gtk::Image.new(Gtk::Stock::DIALOG_INFO, Gtk::IconSize::DIALOG)
+    vbox=Gtk::VBox.new false,10
+    vbox.pack_start Gtk::Label.new 'Introduzca el nombre de los datos:'
+    vbox.pack_start entry
+    hbox=Gtk::HBox.new false,10
+    hbox.border_width=10
+    hbox.pack_start image
+    hbox.pack_start vbox
+    dialog.vbox.add hbox
+    dialog.show_all
+    dialog.run do |response|
+      if response==Gtk::Dialog::RESPONSE_ACCEPT
+        $lista.nombre=entry.text if !entry.text.empty?
+        actualiza_lista
+      end
+      dialog.destroy
+    end
+  end
+
 
   def del
     dialog=Gtk::Dialog.new('Eliminar frase',@window,
@@ -285,6 +312,8 @@ class AgaInterfaz
     @lista_frases.set_value(fila,1,'TOTAL')
     @lista_frases.set_value(fila,2,$lista.gettotal.to_s)
     @treeview_frases.model=@lista_frases
+
+    @frame_frases.label=$lista.nombre
   end
 
 
