@@ -1,7 +1,7 @@
  DEPENDENCIAS
 
-Debes tener instalado ruby 1.8
-Para instalarlo en ubuntu: sudo apt-get install ruby1.8
+Debes tener instalado ruby 1.8 y librmagick para ruby
+Para instalarlo en ubuntu: sudo apt-get install ruby1.8 librmagick-ruby
 
  USO
 

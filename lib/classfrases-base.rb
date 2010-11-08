@@ -1,10 +1,11 @@
 # author: Adrián García
 # program under the license GPL v3
 require 'lib/rdp-gnuplot'
+require 'lib/gruff'
 
 
-$title="AGAFRAS cuenta-frases"
-$version="3.0"
+$title='AGAFRAS cuenta-frases'
+$version='3.0'
 
 
 
@@ -108,6 +109,26 @@ class Frases
   end
 
 
+  def plot_gruff(file, type=0, size='2000x1200', title=@nombre)
+    if type==0
+      g=Gruff::StackedArea.new size
+    else
+      g=Gruff::SideStackedBar.new size
+    end
+    g.title=title
+    g.legend_font_size=12
+    g.marker_font_size=12
+    g.title_font_size=14
+    @frases.each_with_index do |frase,i|
+      valores=Array.new
+      @dias.size.times{|j| valores.push @tabla[j][i]}
+      g.data(frase,valores)
+    end
+    etiquetas=Hash.new
+    @dias.each_with_index{|dia,i| etiquetas[i]=dia}
+    g.labels=etiquetas
+    g.write file
+  end
 end
 
 

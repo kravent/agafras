@@ -15,7 +15,7 @@ class AgaInterfaz
       ['Eliminar frase',:del],
       ['Cambiar frase',:cambia],
       ['Mostrar gráfica',:plot],
-      ['Guardar',:save]
+      [Gtk::Stock::SAVE,:save]
     ]
   end
   def menu_items
@@ -32,10 +32,10 @@ class AgaInterfaz
       ['/Datos/_Cambiar frase','<Item>',nil,nil,lambda{cambia}],
       ['/_Gráfica'],
       ['/Gráfica/_Mostrar gráfica','<Item>',nil,nil,lambda{plot}], 
-      ['/Gráfica/_Guardardar gráfica como svg',
-        '<Item>',nil,nil,lambda{plotsave '*.svg'}],
-      ['/Gráfica/_Guardardar gráfica como eps',
-        '<Item>',nil,nil,lambda{plotsave '*.eps'}],
+      ['/Gráfica/_Guardardar gráfica de áreas',
+        '<Item>',nil,nil,lambda{plotsave 0}],
+      ['/Gráfica/_Guardardar gráfica de barras',
+        '<Item>',nil,nil,lambda{plotsave 1}],
       ['/_Ayuda'],
       ['/Ayuda/_Acerca de...','<Item>',nil,nil,lambda{acerca}]
     ]
@@ -114,12 +114,12 @@ class AgaInterfaz
     @input.signal_connect('activate'){
       self.send(@button_input_ok_action)
     }
-    button_input_ok=Gtk::Button.new 'OK'
+    button_input_ok=Gtk::Button.new Gtk::Stock::OK
     @button_input_ok_action=:incrementa_from_str
     button_input_ok.signal_connect('clicked'){
       self.send(@button_input_ok_action)
     }
-    button_input_cancel=Gtk::Button.new 'Cancelar'
+    button_input_cancel=Gtk::Button.new Gtk::Stock::CANCEL
     @button_input_cancel_action=:limpiainput
     button_input_cancel.signal_connect('clicked'){
       self.send(@button_input_cancel_action)

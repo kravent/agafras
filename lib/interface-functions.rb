@@ -124,8 +124,9 @@ class AgaInterfaz
     end
   end
 
-  def plotsave filter_pattern
-    dialog=Gtk::FileChooserDialog.new('Abrir archivo',$window,
+  def plotsave tipo_grafica
+    filter_pattern='*.png'
+    dialog=Gtk::FileChooserDialog.new('Guardar gráfica',$window,
                                       Gtk::FileChooser::ACTION_SAVE,nil,
                                       [Gtk::Stock::CANCEL,
                                         Gtk::Dialog::RESPONSE_CANCEL],
@@ -138,10 +139,12 @@ class AgaInterfaz
     dialog.add_filter filter
     dialog.run do |response|
       if response==Gtk::Dialog::RESPONSE_ACCEPT
-        file=/#{filter_pattern.gsub('*','')}$/.match dialog.filename ?
-             dialog.filename : dialog.filename+filter_pattern.gsub('*','')
-        name=$filedat ? $filedat.gsub(/\..{2,3}$/,"")+"-"+time : nil
-        $lista.plot(name,file)
+        if /#{filter_pattern.gsub('*','')}$/.match dialog.filename
+          file=dialog.filename
+        else
+          file=dialog.filename+filter_pattern.gsub('*','')
+        end
+        $lista.plot_gruff(file,tipo_grafica)
       end
       dialog.destroy
     end
@@ -264,13 +267,39 @@ class AgaInterfaz
     end
   end
 
+ 
+
+
   def plot
-    if $filedat
-      $lista.plot $filedat.gsub(/\..{2,3}$/,"")+"-"+time
-    else
-      $lista.plot
-    end
+    tmpfile="agafras-#{(rand*99999999).to_i}.png"
+    $lista.plot_gruff tmpfile
+    
+    dialog=Gtk::Dialog.new('Gráfica',$widow,
+                           Gtk::Dialog::MODAL,
+                           [Gtk::Stock::CLOSE,Gtk::Dialog::RESPONSE_ACCEPT]
+                          )
+    tw=Gtk::TextView.new
+    tw.editable=false
+    tw.buffer.insert_pixbuf(
+      tw.buffer.get_iter_at_line(0),
+      Gdk::Pixbuf.new(tmpfile)
+    )
+    scroll=Gtk::ScrolledWindow.new
+    scroll.border_width=5
+    scroll.add tw
+    scroll.set_policy(
+      Gtk::POLICY_AUTOMATIC,Gtk::POLICY_AUTOMATIC
+    )
+    dialog.vbox.add scroll
+    dialog.show_all
+    dialog.run
+    dialog.destroy
+    
+    File.delete tmpfile
   end
+
+
+
 
   def incrementa_from_str
     @input.text.split(" ").each do |ns|
