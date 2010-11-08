@@ -126,25 +126,53 @@ class AgaInterfaz
 
   def plotsave tipo_grafica
     filter_pattern='*.png'
-    dialog=Gtk::FileChooserDialog.new('Guardar gráfica',$window,
-                                      Gtk::FileChooser::ACTION_SAVE,nil,
-                                      [Gtk::Stock::CANCEL,
-                                        Gtk::Dialog::RESPONSE_CANCEL],
-                                      [Gtk::Stock::OK,
-                                        Gtk::Dialog::RESPONSE_ACCEPT]
-                                     )
+    dialog=Gtk::Dialog.new('Guardar gráfica',$window,
+                           Gtk::Dialog::DESTROY_WITH_PARENT,
+                           [Gtk::Stock::CANCEL, Gtk::Dialog::RESPONSE_CANCEL],
+                           [Gtk::Stock::OK, Gtk::Dialog::RESPONSE_ACCEPT]
+                          )
+
+    filechooser=Gtk::FileChooserWidget.new(Gtk::FileChooser::ACTION_SAVE,nil)
     filter=Gtk::FileFilter.new
     filter.name="Archivo de imagen (#{filter_pattern})"
     filter.add_pattern filter_pattern
-    dialog.add_filter filter
+    filechooser.add_filter filter
+
+    tamx=Gtk::SpinButton.new(400,20000,1)
+    tamy=Gtk::SpinButton.new(200,10000,1)
+    tamx.value=2000
+    tamy.value=1000
+    hbox=Gtk::HBox.new false,5
+    hbox.pack_start Gtk::Label.new 'Tamaño: ',false
+    hbox.pack_start tamx,false
+    hbox.pack_start Gtk::Label.new 'X',false
+    hbox.pack_start tamy,false
+    
+    hboxmain=Gtk::HBox.new false,5
+    hboxmain.pack_start hbox,false
+
+    vbox=Gtk::VBox.new false,10
+    vbox.border_width=10
+    vbox.pack_start hboxmain,false
+    vbox.pack_start Gtk::HSeparator.new,false
+    vbox.pack_start filechooser
+
+    dialog.vbox.pack_start vbox
+    dialog.show_all
+
     dialog.run do |response|
-      if response==Gtk::Dialog::RESPONSE_ACCEPT
-        if /#{filter_pattern.gsub('*','')}$/.match dialog.filename
-          file=dialog.filename
+      if response==Gtk::Dialog::RESPONSE_ACCEPT and
+        if filechooser.filename.empty?
+          puts 'No se puede guardar en archivo vacío'
+          #TODO mostrar mensaje de error
         else
-          file=dialog.filename+filter_pattern.gsub('*','')
+          if /#{filter_pattern.gsub('*','')}$/.match filechooser.filename
+            file=filechooser.filename
+          else
+            file=filechooser.filename+filter_pattern.gsub('*','')
+          end
+          $lista.plot_gruff(file,tipo_grafica,"#{tamx.value}x#{tamy.value}")
         end
-        $lista.plot_gruff(file,tipo_grafica)
       end
       dialog.destroy
     end
